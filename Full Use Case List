@@ -1,0 +1,476 @@
+Full Use Case List
+
+
+Use case 1: Log on
+
+	- User opens the program and 
+	- The program displays the opening screen (obj 1) and prompts the user for a username and password. 
+	- The user enters the username and password and submits it.
+	- The system checks if the username is a valid username in the database.
+	- If the username is in the database 
+		- The system will verify that the account is currently active. 
+	- Otherwise
+		- The system returns an error message and prompts for a valid username. 
+	- The system will authenticate using the password.
+		- Verifies that the password is a valid password type. 
+		- Encrypts the password entered.
+		- Compares it to the encrypted password in the database.	 
+	- If the password is correct 
+		- The system displays a splash screen (obj 2).
+		- After the splash screen the system displays the home screen (obj 3). 
+
+Exceptions:
+	- If the user does not have an account set up an admin will set up a new account for the user.
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If the password is false the system will return an error message and prompt the user for a valid password.
+	- If the password is correct but is more than 4 months old the system will the system:
+		- Take the user to the account page.
+		- Prompts the user to create a new password.
+	- After 5 failed log in attempts the system will make the account inactive and display a message telling the user to contact an administrator.
+	- If the password entered is the assigned password by the admin on account creation, the system:
+		- Take the user to the account page.
+		- Prompts the user to create a new password.
+	
+
+
+Use Case 2: Home Screen
+Assumes that the user has been authenticated, is active, and is on the home screen.
+	-The system:
+		- Retrieves employee name and access level from database.
+		- Displays the company banner across the top of the page.
+			- The banner includes the company name, employee name, account menu, time, and date.
+			- The banner is displayed until the session ends.
+		- Sorts through the threads that the user has participated in and displays the most recent 5 threads with the most recent message in the thread, the author of the thread, and based on the color, the access level.
+		- Displays a list of common topics of the threads.
+		- Displays a buffer for the user to enter a topic to search for.
+		- Displays a buffer for the user to enter a word or phrase if the user desires to search in the titles
+		- Displays a "New Thread" Button
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If the user is a Sr Partner or admin, the system:
+		- Displays another search option to search by username or employee name.
+		- Allows the user to change to view as lower access level.
+	- If the user logs out the seesion ends.
+
+
+
+Use Case 3: Account Menu 
+Assuming the user has been authenticated, and is active.
+	- The user clicks on the account menu represented by a triangle next to the employee name.
+	- The system:
+		- Displays a dropdown menu with the following options:
+			- "Account" Which directs the user to a simple page where information is displayed about the employee and where the user can change the account password.
+			- "Contact" Which provides the user a prompt which they can use to alert an admin of an issue.
+			- "Log out" which logs the user out of the system and returns to the log is screen.
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.	
+	- The user can also click on their name on the banner to access the drop down menu.
+
+
+
+Use Case 4: Account Page/ Managing Accounts
+Assuming the user has been authenticated, is active, and is on the account page.
+	- The system:
+		- Retrieves the account info from datebase.
+		- Uses the age of the password (Stored in account information in the database) to calculate how many days left until the password is 4 months on and needs to be reset.
+		- Displays:
+			- General information about the employee such as: Name, job title, a photo of the employee, employee email, and a short biography.
+			- A field represendting the account password (Filled with 15 *s regardless of actual password length)
+			- A "_____ Days left to change password" message.
+			- An "Edit" button to edit the information.
+	- The user clicks the edit button.
+	- The system displays:
+		- A buffer in place of the bio with the previous bio in the buffer.
+		- A  "New Password" button to change password.
+		- A "Save" button
+	- The user clicks the new password button.
+	- The system:
+		- Replaces the bio buffer with the printed bio.
+		- Displays a buffer prompting for the old password.
+		- Displays a buffer for the new password.
+		- Displays a buffer to confirm the new password.
+		- Displays a the message "Passwords must be 10-30 characters in length and include at least one uppercase letter, lowercase letter, number, and special character. Passwords cannot be repeated."
+	- The user inputs the information as prompted.
+	- The system verifies the password change by:
+		1) Verifying that the old password is valid.
+		2) Encrypting the old password.
+		3) Comparing the encrypted password to current password stored in database.
+		4) Verifying that the new password is valid and meets all the criteria.
+		5) Verifying that both entries of the new password match.
+		6) Encrypting the new password.
+		7) Comparing the new encrypted password to the previous 5 passwords in the database.
+	- If the password change is verified, the system:
+		- Inserts the new encrypted password into the database as the new current password.
+	- Otherwise the system:
+		- Displays one of the following messages based on where the verification failed:
+			- "Current Password is Incorrect" If the failure was on step 1 on 3. 
+			- "New Password Doesn't Meet Criteria" If the failure was on step 4.
+			- "New Passwords Don't Match" If the failure was on step 5
+			- "Cannot Repeat Passwords" If the Failure was on step 7
+		- Prompts the user for the passwords again.
+
+Exceptions:
+	- If the account is inactive, the system will not allow edit information and will display a message to contact an administrator. 
+	- If the database is unavailable the system will display an error saying the information is unavailable.
+	- If the user tries to change the password more than 5 times in 24 hours
+		- The system makes the account inactive and displays a message to contact an administrator. 
+	- If the user is an admin and tries to change the password more than 5 times in 24 hours,
+		- The system locks the account until another administrator can enter their username and password.
+	- This page is accessible by admins through the Admin Duties page.
+	- If the user is an admin:
+		- All fields are editable.
+		- The old password is not necessary to change the password.
+		- The access level of the account can be changed.
+			- Changing an account to an admin account requires the admin enter their password.
+		- The account can be deactivated.
+
+
+
+
+Use Case 5: Changing View
+Assuming the user has been authenticated, is active, and is an administrator or Sr Partner.
+	- The user clicks on the account menu.
+	- The system:
+		- Displays under the "Account" option the message, "View as:"
+		- Displays the "Jr Partner" option.
+	- The user selects the "Jr Partner' option.
+	- The system:
+			- Verifies that a jr partner would have access to the current page.
+			- Displays the current page as a jr partner account would see it.
+
+Exceptions:
+	- If the account is inactive, the system will not allow changing views and will display a message to contact an administrator.
+	- If the user is an admin
+		- The system also displays the "Admin" option
+			-If the user selects the admin option
+				- The system:
+					- Saves the current page if the user is on a thread page.
+					- Directs the user to the Admin Duties page.
+	- If the user changes view on a page that a jr partner account would not have access to, 
+		- The system would:
+			- Display a message stating "The selected access level does not have permission to access this page"
+			- Prompt the user to either not change views or return to the home page with the selected view.
+
+
+
+
+Use Case 6: Search by Title
+Assumes that the user has been authenticated, is active, and is on the home screen.
+	- The user enters a word or phrase into the appropriate buffer.
+	- The system:
+		- Searches the titles of the threads.
+		- Displays the threads by relevance.
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If no threads contain the input in the title.
+		-The system will:
+			- Display a message stating that fact.
+			- Ask the user if they would like to create a thread with that title.
+	- If the user does not have the appropriate access for a matching thread
+		-The system will not consider the thread a match for the search criteria.
+
+
+
+Use Case 7: Search By Topic
+Assumes that the user has been authenticated, is active, and is on the home screen.
+	-The user inputs a topic into the buffer.
+	-The system: 
+		-searches in the title, description, and body of active threads for the topic.
+		-displays the threads in order according to the first 5 threads the user has recently participated in, followed by the most relevant threads.
+	-The user picks a thread.
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If no threads contain the topic
+		-The system will:
+			- Display a message stating that fact.
+			- Ask the user if they would like to create a thread for that topic.
+	- If the user does not have the appropriate access for a matching thread
+		-The system will not consider the thread a match for the search criteria.
+
+		
+
+Use Case 8: Search by User/ Employee
+Assumes that the user has been authenticated, is active, is a sr partner or admin, and and is on the home screen. 
+	- The system will display a buffer allowing the sr partner to search by user/ author.
+	- The user inputs a username or employee name
+	- The system 
+		- Searches for all the threads that the user/ employee has participated in. 
+		- Displays them in order of most recent.
+	- The user picks a thread to view.
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If the user has not participated in any threads
+		-The system will:
+			- Display a message stating that fact.
+			- Ask the user if they would like to create a thread and invite that user to participate.
+	- If the user does not have the appropriate access for a matching thread
+		-The system will not consider the thread a match for the search criteria.
+
+
+ 
+Use case 9: Create Thread
+Assumes that the user has been authenticated, and is active. 
+	-The user clicks the “New Thread” button and 
+	-The system:
+		- Displays the new thread screen (obj 4).
+		- Prompts for the thread title and a short description, and invites any employees they desire to the thread. 
+	-The user enters the information 
+	-The system verifies:
+		- That the title is unique, 
+		- That the user has the necessary authority to post to that permission level.
+	-The system creates a thread and displays the screen as seen below (obj 5).
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If the title is not unique, 
+		- The system will:
+			- Display an error saying the title is already in use.
+			- Prompt for a new title.
+	- If the user is a sr partner or admin they have the following access options: 
+		- Accessible by all (Jrs and Srs) 
+		- Accessible by all Srs and specific Jrs 
+		- Accessible to only Srs.
+	- Admins can access all threads.
+
+	
+	
+
+Use case 10: Accessing Active Thread
+Assumes that the user has been authenticated, is active, and is on the home screen.
+	-The user clicks on a thread.
+	-The system verifies That the account:
+		- Is active,
+		- Has necessary permission to view the thread.
+	-The system displays: 
+		- The thread title and brief description provided by the author.
+		- The most recent messages in the thread with the author of the message represented with the employee name and picture. Any messages displayed by the user are on the right hand side.
+		- A buffer for the user to input a message to add to the thread.
+		- A magnifying glass button representing the search function.
+
+Exceptions:
+	- If the account is inactive, the system will display a message to contact an administrator.
+	- If the user does not have the appropriate access for the thread
+		-The system will:
+			- Display a message stating that fact.
+
+
+
+Use Case 11: Search in a Thread
+Assumes that the user has been authenticated, is active, and is on an active thread.
+	-The user presses the search button.
+	-The system prompts the user for a word, phrase, or employee name.
+	-The user inputs a word, phrase, or employee name.
+	-The system:
+		- Searches the thread for each instance of the item.
+		- Highlights all instances of the item.
+		- Scrolls the thread to the most recent instance.
+		- Displays two arrows giving the use the option to jump to the next or previous instance of the item.
+
+Exceptions:
+	- If there are no instances of the item, the system:
+		- Displays just below the buffer “No matches to ‘___’ were found in this thread.”
+	- If the account is inactive, the system will display a message to contact an administrator.
+
+
+
+Use Case 12: Admin Duties
+Assuming the user has been authenticated, is active, and is an administrator.
+	- The user accesses the Admin Duties page.
+	- The system displays:
+		- A "Create New Account" button.
+			- This brings the user to a blank account page.
+		- A "Manage Existing Account" button.
+			- This prompts the user for a username or employee and brings them to that account page
+		- An "Archive/ Retrieve Treads" button.
+
+
+Exceptions:
+	- If the account is inactive, the system will not allow user to navigate to any other pages.
+	- If the user was on a thread when they accessed the admin duties page
+		- The system directs the user back to the saved thread page.
+	- If the user tries to manage an account that doesn't exist the system will:
+		- Display an error stating that no such account is found.
+		- Prompt the user:
+			- "Create new account" Which takes the user to the blank account page.
+			- "Search in Inactive Accounts" which takes them to the reactivation page.
+
+
+
+Use Case 13: Thread Archiving
+Assuming the user has been authenticated, is active, and is an administrator on the administrator duties page.
+	- The user clicks the "Archive/ Retrieve Treads" button.
+	- The system prompts the user, "Archive" or "Retrieve".
+	- The user clicks "Archive" 
+	- The system directs the user to the home page and is prompted to access the thread to be archived.
+	- The user accesses an active thread that has not been accessed recently or is currently unnecessary or irrelevant.
+	- The system displays a button with an archive symbol.
+	- The user clicks the archive button.
+	- The system archives the thread based on access level.
+		- The title, description, access level, storage location, and date archived are copied to a database.
+		- If the access level is 'Accessable to all'
+			- The system:
+				- Adds the 5 most recent messages to the database.
+				- Compress the thread.
+				- Stores the thread in a local password protected hard drive. 
+		- Otherwise
+			- The system will:
+				- Encrypt the body of the thread.
+				- Compress entire thread.
+				- Store it in a local password protected hard drive.
+
+Exceptions:
+	- If the account is inactive, the system will not allow thread archiving.
+	- If the thread contains especially sensetive information
+		- The system:
+			- Copies the title and description to the database.
+			- Encrypts the entire thread.
+			- Compresses all information.
+			- Stores the compressed encrypted thread on a special offline hard drive.
+		- The user can only access this special hard drive with two admins present.
+	- If the user was on a thread when they accessed the admin duties page
+		- The system directs the user back to the saved thread page.
+
+
+
+Use Case 14: Archived Thread Retrieval
+Assuming the user has been authenticated, is active, is an administrator, and is on the admin duties page.
+	- The user clicks the "Archive/ Retrieve Treads" button.
+	- The system prompts the user, "Archive" or "Retrieve".
+	- The user clicks "Retrieve".
+	- The system:
+		- Displays a list of the most recently archived threads, showing the title and brief description.
+		- Prompts the user for a word, phrase, or title to search for.
+		- Prompts the user for the access level of the desired thread.
+		- Prompts the user for the storage location if known.
+		- Prompts the user for date of archive if known.
+	- The user enters in the information.
+	- The system changes the list to display the most relevant threads to the search.
+	- The user picks a thread.
+	- If the thread is accessible by all,
+		- The system:
+			- Displays the title, description, and most recent messages.
+			- Displays other information about thread in database.
+	- Otherwise,
+		- The system :
+			- Displays the title, and description.
+			- Displays other information about thread in database.
+	- The system prompts the user:
+		- "See full Thread?"
+		- "Retrieve Thread?"
+	- The user selects "See Full Thread"
+	- The system prompts the user for the password to the hard drive.
+	- The user enters the password.
+	- If the password is incorrect,
+		- The system displays an error and reprompts for the password.
+	- Otherwise
+		- The system decompresses and retrieves the thread.
+	- The system:
+	 	- Displays the thread.
+			- If the body of the thread was encrypted it decrypted then displayed.
+		-Prompts the user, retrieve or return.
+	- The user picks retrieve.
+	- The system:
+		- Puts the thread back in the thread database.
+		- Makes thread active.
+		- Prompts the user, 
+			- "Retrieve another?" Leaves the user on the retrieval page.
+			- "Go to Thread?" Directs user to the newly active thread page.
+			- "Return" Directs the user to the home screen
+
+Exceptions:
+	- If the account is inactive, the system will not allow access to the retrieval page, nor any threads to be viewed of retrieved.
+	- If the thread is the high clearance and is stored in the secure offline drive, the archival process is reversed.
+
+
+
+Use Case 15: Account Creation
+Assuming the user has been authenticated, is active, is an administrator, and is on the Admin duties page.
+	- User clicks create new account.
+	- The system:
+		- Directs the user to a blank account page.
+		- Prompts the user for the employee name, job title, and photo.
+		- Prompts the user for username.
+		- Prompts for employee email.
+		- Prompts for access level.
+		- Displays a "Create Account" button.
+	- User presses button.
+	- The system:
+		- If the username is unique,
+			- Creates a random new password for the user.
+			- Puts account information in database.
+			- Emails username and temporary password to employee.
+			- Prompts employee, "Create Another?", or "Return" 
+		- Otherwise 
+			- The system prompts for another username.
+
+Exceptions:
+	- If the account is inactive, the system will not allow create new accounts.
+	- If the account being created is an admin account the user must input their password again.
+	- In checking to see if the username is unique the system will check to see if the username matches an inactive account.
+
+
+
+
+Use Case 16: Account Deactivation
+Assuming the user has been authenticated, is active, is an administrator, and is on the account page.
+	- The user selects the button that says "Deactivate Account".
+	- The system prompts for the administrator's password.
+	- The user enters the password.
+	- If the password is incorrect, 
+		- The system displays an error and reprompts for the password.
+	- Otherwise
+		- The system:
+			- Adds the employee name, username, date deactivated, and information storage location to a secure database
+			- Encrypts all account information.
+			- Compresses all information.
+			- Stores information on password protected hard drive.
+			- Returns user to home page.
+
+Exceptions:
+	- If the account is inactive, the system will not allow any deactivations.
+	- If the user deactivates more than 5 accounts in 24 hours, the system locks the account until another administrator can enter their username and password.
+	- Accounts that have been inactive for 5 years are deleted.
+
+
+
+Use Case 17: Account Reactivation 
+Assuming the user has been authenticated, is active, is an administrator, and is on the reactivation page.
+	- The system displays:
+		- The message, "Enter Username or Employee Name"
+		- A buffer and 
+		- A search button
+	- The user enters the information.
+	- The system:
+		- Searches the database for the username or name.
+		- Displays the match if found.
+		- Displays, "Did You Mean?"
+		- Displays other usernames/ names close to the entered name.
+		- Displays after list, "Create New Account"
+	- The user selects the name.
+	- The system:
+		- Displays username and Employee name.
+		- Prompts the user. "More Information", "Reactivate", or "Return"
+	- The user selects more information.
+	- The system:
+		- Retrieves information
+		- Decompresses information
+		- Displays all account information
+		- Prompts the user:
+			- "Reactivate", or "Return"
+	- The user selects reactivate.
+	- The system:
+		- Reactivates the account
+		- Creates a random password
+		- Resets the accounts password with new temporary password.
+		- Emails username and password to employee email.
+		- Returns admin to home screen
+
+Exceptions:
+	- If the account is inactive, the system will not allow any reactivations.
+	- If the user reactivates more than 5 accounts in 24 hours, the system locks the account until another administrator can enter their username and password.
+	- Accounts that are not reactivated in 5 years are deleted.

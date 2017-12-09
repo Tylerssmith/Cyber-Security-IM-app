@@ -1,0 +1,414 @@
+Secure Messenger Requirements
+
+CSC 375R: Secure Messenger Requirements
+
+Remember: Customer’s Perspective
+
+Functional:
+- Authenticates user access.
+- Securely stores/retrieves user account information, (ID, Password, Role(s), activity/status, et cetera).
+- Stores/archives threads.
+- Tracks/lists recent threads.
+- Searches through threads/users.
+- Creates threads of the clearance level(s) accessible to the creating user/role.
+- Restricts access to authorized users/roles.
+- Lists threads/posts for viewing.
+- Archives/retrieves threads when prompted by an authorized user/role.
+- Provides persistent state of previous session. (Stores/retrieves state).
+-Create and modify accounts/ account management
+- Grants/ revokes privileges/ change access level
+- Be able to set password.
+- Keep record of activity status of accounts.
+- 
+
+
+Non-Functional:
+- Secure persistence layer.
+- Encrypted network connection.
+- 
+
+
+Use Case 1)
+Functional
+	- Displays Company information.
+	- Displays time and date.
+	- Prompts for username/ password.
+	- Sanitizes input.
+	- Compares username recieved with usernames in database.
+	- Verifies that the account is active.
+	- Stores username, password, and account activity in database.
+	- Displays errors and reprompts for username/ password.
+	- Encrypts password.
+	- Compares encrypted password to encrypted password in database.
+	- Displays Splash Screen.
+	- Displays Home Screen.
+	- Checks age of password.
+	- Sets new password.
+	- Keeps track of failed log in attempts.
+	- Changes activity if account.
+	- Lock program
+	- Display message, "Please contact an Administrator"
+
+NonFunctional
+	- Secure Tunnel from system to database.
+	- Has Account database
+
+
+Use Case 2)
+Functional
+	- Retrieve Names and access levels from database.
+	- Display banner.
+		- Company name
+		- Employee name
+		- Date
+		- Time
+		- Account Menu
+	- Maintain banner until session ends.
+	- Record when a user participates in a thread
+	- Record which thread a user participates in
+	- Determine which 5 threads the user has recently participated in.
+	- Retrieve threads from database.
+	- Sort the 5 recent threads by date.
+	- Display threads
+		- Title
+		- Author name
+		- Brief description
+		- Author photo
+		- Access level
+			- Green is Jr level
+			- Blue is Sr level
+	- Display a list of common topics
+	- Take input from buffer for search
+	- Sanitze input
+	- Seach database for occurances of item in threads
+	- Display enter buttons
+	- Check activity of account
+	- Search database for threads by certain author.
+	- Search databse for threads participated in by a certain user
+	- Search databse for threads participated in by a certain Employee
+	- Display account menu
+	- Determine what page user is on.
+	- Display "New Thread" button
+	- Recognize when user logs out.
+	- Save session
+	- End session when user logs out.
+
+Nonfunctional
+	- Has a thread database
+
+
+Use Case 3)
+Functional
+	- Display account menu button (triangle)
+	- Recognize when the user clicks on a specific place
+	- Display a dropdown Menu
+		- Display "Account" button
+		- Display "Contact" button
+		- Display "Log out" button
+	- Direct user to account information page
+	- Display Dialogue box
+	- Prompt user for input
+	- Sanitize imput
+	- Send input to Admin
+	- Determine which admin to send info to
+	- Determine if there is an admin available
+	- Email input to admin
+	- Copy time and date into email for admin
+	- Log user out of system
+	- Keep record of which users are logged into system
+	- 
+
+Nonfunctional
+	- 
+
+Use Case 4)
+Functional
+	- Retrieves account information from database
+	- Calculate how many days until password expires.
+	- Displays
+		- Employee name
+		- Job title
+		- Photo of employee
+		- Employee email
+		- Biography
+		- Password box
+		- Stars in password box
+		- Password expiration message
+		- "Edit" button
+		- Password criteria message
+	- Recognize where a user clicks
+	- Remove bio text
+	- Display buffer
+	- Sanitize input
+	- Replace text in bio with input
+	- Save any changes to database
+	- Prompt for current password
+	- Authenticate password
+	- Verify new password meets criteria
+	- Keep record of previous passwords
+	- Transfer current password to previous passwords list
+	- Set new password as current password
+	- Displays error messages and reprompts
+	- Determine if database is available
+	- Determine if connection to database is secure
+	- Keep track of how many times a password is changed
+	- Compare the number of times changed with the past 24 hours
+	- Change activity of account
+	- Lock account
+	- Prompt user for other Admin username/ password
+	- Authenicate an account without logging in.
+	- Check access level of user
+	- Allow changes by admins
+	- Change access level of account
+	- Authenticate with admin password
+	- 
+
+
+Nonfunctional
+	- 
+
+Use Case 5)
+Functional
+	- Check access level of account
+	- Display "View as:" message on account menu
+	- Change display based on access level
+	- Change the response to access level without changing access level
+	- Determine access level relative to current page
+	- Save which page a user is on
+	- Direct user to Admin Duties page
+	- Prompt the user to either not change access or change page.
+	- 
+
+Nonfunctional
+	- 
+
+Use Case 6)
+Functional
+	- Determine Access Level
+	- Sanitize input
+	- Compare input to titles of threads in database
+	- Rank results based on relevance
+	- Sort threads by relevance
+	- Display threads
+	- Ask if user wants to create thread
+	- Direct user to thread creation page
+	- Use access level as criteria for search
+
+Nonfunctional
+	- 
+
+
+Use Case 7)
+	SEE USE CASE 6
+
+Use Case 8)
+	SEE USE CASE 6
+
+
+Use Case 9)
+Functional
+	- Display New Thread window
+	- Prompt for 
+		- Title
+		- Description
+		- Employees to invite
+	- Display access level options
+	- Verify emloyees invited have access
+	- Email employees about new thread invitation
+	- Sanitize input
+	- Compare potential title to other titles in database
+	- Compare title to titles in archive database
+	- 
+
+Nonfunctional
+	- 
+
+
+Use Case 10)
+Functional
+	- Verify Activity of account
+	- Verify access level of account
+	- Retrieve thread from database
+	- Sorts messages based on time
+	- Sort messages based on if it was the current user or another user
+	- Determine which users have recently posted messages
+	- Displays
+		- Title
+		- Description
+		- Most recent messages
+		- Message Author photo
+		- Magnifying glass button
+		- A Buffer
+		- Recent message authors with name and picture
+	- Sanitize input
+	- Take input and display it as message
+	- 
+
+Nonfunctional
+	- 
+
+
+Use Case 11)
+Functional
+	- SEE USE CASE 6
+	- Prompt for item to search for
+	- Search in thread for item
+	- Highlight instances of the item
+	- Jump to next/previous instance of item.
+	- Display "jump" arrows
+	- Display error message
+	-
+
+Nonfunctional
+	- 
+
+
+Use Case 12)
+Functional
+	- Display Admin Duties window
+		- Create new account button
+		- Manage existing acount button
+		- Archive/ retrieve threads button
+	- Prompt for username/ employee name
+	- Save which page the user was on
+	- Restore the user to the previous page
+	- Display errors
+	- Compare names/username to database
+	- Direct user to other page
+
+Nonfunctional
+	- 
+
+
+Use Case 13)
+Functional
+	- Prompt user for archive/ retrieve
+	- Determine where to send user
+	- Send user to home page
+	- Display Archive button
+	- Tell user to find thread to archive
+	- Copy information to archive database
+		- Title 
+		- Description
+		- Access level
+		- Storage location
+		- Date Archived
+		- 5 most recent messages
+	- Compress thread
+	- Encypt Messages in thread
+	- Store in hard drive
+	- Prmpt for password to store in hard drive
+	- Accept Classified as access level for thread
+	- Prompt for double password authentication
+	- Bring offline Hard drive online
+	- Bring hard drive back offline
+	- Save page of user
+	-
+
+Nonfunctional
+	- Has Hard drive
+	- Has Offline hard drive
+	- Has Archive database
+	-
+
+
+Use Case 14)
+Functional
+	- Prompt user for archive/ retrieve
+	- Display Retrieve button
+	- Query database for most recent archived threads
+	- Display list
+	- Prompt user for search criteria
+		- Word, phrase, or topic
+		- Name/Username
+		- Access Level
+		- Date of Archive
+		- Storage location
+	- Search database based on criteria
+	- Rank results based on relevance
+	- Change list based on rank of results
+	- Retrieve thread info from database
+	- Display thread info
+	- Verify access level of thread
+	- Prompt for password
+	- Authenticate
+	- Display error and reprompt
+	- Decompress threads
+	- Decrypt threads
+	- Authenticate with double passwords
+	- Communicate with offline hard drive
+	- Send user to Thread page
+	- Send user to home page
+	- Reverse high clearance archiving
+
+Nonfunctional
+	- Error handling in every function
+	- 
+
+
+Use Case 15)
+Functional
+	- Display blank user account page
+	- Prmpt user for required information
+	- Verify if username is unique
+	- Compare username in account database
+	- Compare username in Deactivated account database
+	- Create Password 
+	- Email employee
+	- Set access level of account
+	- Authenticate with password
+	- 
+
+Nonfunctional
+	- Has Deactivated account database
+	- Has hard drive for storing inactive accounts
+	- 
+
+
+Use Case 16)
+Functional
+	- Display Deactivate acount button
+	- Authenticate with password
+	- Add information to Deactivated Account database
+	- Encrypt information
+	- Compress information
+	- Stores information of password protected hard drive
+	- Keep track of how many account are being deactivated.
+	- Compare amount of deactivated account to 24 hour period.
+	- Lock account.
+	- Require other admin authentication to unlock account
+	- Keep track of date of deactivation
+	- Delete accounts after 5 years.
+	- 
+
+Nonfunctional
+	- Has deactivated account database
+	- Tunneling to database
+	- 
+
+
+Use Case 17)
+Functional
+	- Prompt for search criteria
+	- Sanitize input
+	- Search in deactivated database for criteria
+	- Rank search results based on relevance
+	- Sort Results based on rank.
+	- Retrieve info from database
+	- Display info from database
+	- Retrieve info from hard drive
+	- Decompress info
+	- Decrypt info
+	- Change activity of account
+	- Change access of account
+	- Keep track of date of deactivity
+	- Delete accounts after 5 years
+	- Create password
+	- Changes account password
+	- Emails employee with username and password
+	- Returns admin to home page
+
+Nonfunctional
+	- Has Hard drive
+	- Has Deactivated database
+
